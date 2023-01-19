@@ -1,0 +1,145 @@
+---
+- hosts: all
+  pre_tasks:
+  - name: Update package manager cache.
+    apt:
+      update_cache: true
+      cache_valid_time: 86400
+    become: true
+  
+  handlers:
+  - name: grub update
+    become: true
+    command: update-grub
+  - name: Install Patiobar
+    command: ~/Patiobar/install.sh
+  
+  tasks:
+  - name: Install a list of packages
+    become: true
+    package:
+      pkg:
+      - git
+      - nano
+      - xserver-xorg
+      - x11-xserver-utils
+      - xinit
+      - openbox
+      - chromium
+      - nmap
+      - net-tools
+      - miniupnpc
+      - cron
+      - curl
+      - speedtest-cli 
+      - bluez
+      - pulseaudio-module-bluetooth
+      - pianobar
+      - npm
+      - tmux
+  - name: Create folder for autologin
+    become: true
+    file:
+      path: "/etc/systemd/system/getty@tty1.service.d/"
+      owner: root
+      group: root
+      state: directory
+  - name: Creating file for autologi
+    become: true
+    copy:
+      dest: "/etc/systemd/system/getty@tty1.service.d/override.conf"
+      owner: root
+      group: root
+      mode: 0644
+      content: |
+        [Service]
+        ExecStart=
+        ExecStart=-/sbin/agetty --noissue --autologin {{ ansible_env.LOGNAME }} %I $TERM
+        Type=idle
+  - name: Create folder for autostart
+    file:
+      path: "~/.config/openbox"
+      recurse: yes
+      state: directory
+  - name: Creating file for autostart
+    copy:
+      dest: "~/.config/openbox/autostart"
+      content: |
+        xset s off
+        xset s noblank
+        xset -dpms
+        setxkbmap -option terminate:ctrl_alt_bksp
+        sed -i 's/"exited_cleanly":false/"exited_cleanly":true/' ~/.config/chromium/'Local State'
+        sed -i 's/"exited_cleanly":false/"exited_cleanly":true/; s/"exit_type":"[^"]\+"/"exit_type":"Normal"/' ~/.config/chromium/Default/Preferences
+        chromium --disable-infobars --kiosk $DISP_URL
+  - name: Create bash profile
+    copy:
+      dest: "~/.bash_profile"
+      content: |
+        #!/bin/bash
+        alias t="tmux -2 attach-session -d"
+        export CPID={{ hostvars[inventory_hostname].cpid }}
+        export DISP_URL='{{ hostvars[inventory_hostname].display_url }}'
+        [[ $XDG_VTNR -eq 1 ]] && {{ ansible_env.HOME }}/pnp.sh
+        [[ $XDG_VTNR -eq 1 ]] && {{ ansible_env.HOME }}/tm.sh &
+        [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && startx -- -nocursor
+  - name: Update grub file to hide menu
+    become: true
+    copy:
+      dest: "/etc/default/grub"
+      content: |
+        GRUB_DEFAULT=0
+        GRUB_TIMEOUT=0
+        GRUB_DISTRIBUTOR=`lsb_release -i -s 2> /dev/null || echo Debian`
+        GRUB_CMDLINE_LINUX_DEFAULT="quiet"
+        GRUB_CMDLINE_LINUX=""
+        GRUB_HIDDEN_TIMEOUT_QUIET=true
+        GRUB_CMDLINE_LINUX="console=tty12"
+    notify: grub update
+  - name: create pnp.sh
+    copy:
+      dest: "~/pnp.sh"
+      mode: 0744
+      content: |
+        IP=`ip -4 addr show enp1s0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}'`
+        pnp=$(upnpc  -a $IP 22 2222 TCP 3595)
+        curl -X POST -F data="$pnp" -F store="$CPID" -F ip="$IP" {{ hostvars[inventory_hostname].ping_url }}| json_pp
+  - name: Add pnp.sh to cron 
+    cron:
+      name: "ping back"
+      minute: "0"
+      job: "{{ ansible_env.HOME }}/pnp.sh >/dev/null 2>&1"
+  - name: create tm.sh
+    copy:
+      dest: "~/tm.sh"
+      mode: 0744
+      content: |
+        #!/bin/sh
+        while [ "$(hostname -I)" = "" ]; do
+          sleep 1
+        done
+        tmux new-session -d  'pianobar'
+        tmux split-window -v 'cd ~/Patiobar && node index.js'
+        tmux split-window -h  'bluetoothctl connect 88:C6:26:7B:3A:E5'
+  - name: MOTD update
+    become: true
+    copy:
+      dest: "/etc/motd"
+      content: "Boom!"
+  - name: Clone a repo with separate git directory
+    git:
+      repo: https://github.com/kylejohnson/Patiobar.git
+      dest: ~/Patiobar
+    notify: install patiobar
+  - name: Flush handlers to make sure Patiobar install is executed before seting config
+    meta: flush_handlers
+  - name: Set Pandora User name 
+    lineinfile:
+      dest: ~/.config/pianobar/config
+      line: "user = {{ hostvars[inventory_hostname].pendora_user }}"
+      regexp: "^user ="
+  - name: Set Pandora password
+    lineinfile:
+        dest: ~/.config/pianobar/config
+        line: "password = {{ hostvars[inventory_hostname].pendora_pass }}"
+        regexp: "^password =" 

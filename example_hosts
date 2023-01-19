@@ -1,0 +1,9 @@
+[boom]
+target_device.local ansible_ssh_private_key_file=~/.ssh/path_to_key
+[boom:vars]
+ansible_user=user_name
+ping_url=https://ping.server/api?pram=abc
+cpid=example_id
+display_url="https://reportingserver/?pram=abc"
+pendora_user="user@email.com"
+pendora_pass="pass"
