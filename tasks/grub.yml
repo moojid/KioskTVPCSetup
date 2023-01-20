@@ -1,0 +1,14 @@
+---
+- name: Update grub file to hide menu
+  become: true
+  copy:
+    dest: "/etc/default/grub"
+    content: |
+      GRUB_DEFAULT=0
+      GRUB_TIMEOUT=0
+      GRUB_DISTRIBUTOR=`lsb_release -i -s 2> /dev/null || echo Debian`
+      GRUB_CMDLINE_LINUX_DEFAULT="quiet"
+      GRUB_CMDLINE_LINUX=""
+      GRUB_HIDDEN_TIMEOUT_QUIET=true
+      GRUB_CMDLINE_LINUX="console=tty12"
+  notify: grub update

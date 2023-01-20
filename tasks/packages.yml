@@ -1,0 +1,53 @@
+---
+- name: Install git
+  become: true
+  package:
+    name: git
+
+- name: Install nano
+  become: true
+  package:
+    name: nano
+
+- name: Install curl
+  become: true
+  package:
+    name: curl
+
+- name: Install cron
+  become: true
+  package:
+    name: cron
+
+- name: Install Xserver packages
+  become: true
+  package:
+    pkg:
+    - xserver-xorg
+    - x11-xserver-utils
+    - xinit
+    - openbox
+
+- name: Install chromium
+  become: true
+  package:
+    name: chromium
+
+- name: Install networking tools
+  become: true
+  package:
+    pkg:
+    - net-tools
+    - nmap
+    - miniupnpc
+    - speedtest-cli 
+    
+- name: Install packages for music setup
+  become: true
+  package:
+    pkg:
+    - bluez
+    - pulseaudio-module-bluetooth
+    - pianobar
+    - npm
+    - tmux

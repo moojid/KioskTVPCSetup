@@ -1,0 +1,11 @@
+---
+- name: Set Pandora User name 
+  lineinfile:
+    dest: ~/.config/pianobar/config
+    line: "user = {{ hostvars[inventory_hostname].pendora_user }}"
+    regexp: "^user ="
+- name: Set Pandora password
+  lineinfile:
+      dest: ~/.config/pianobar/config
+      line: "password = {{ hostvars[inventory_hostname].pendora_pass }}"
+      regexp: "^password =" 
