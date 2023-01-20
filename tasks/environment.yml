@@ -1,0 +1,8 @@
+---
+- name: Set Env Variables. 
+  lineinfile:
+    dest: ~/.env
+    line: "export {{ item.key }}='{{ item.value }}'"
+    regexp: "^{{ item.key }} ="
+    create : true
+  loop: "{{ lookup('ansible.builtin.dict',env_dict)}}"

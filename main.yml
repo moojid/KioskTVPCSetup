@@ -14,6 +14,7 @@
 
   tasks:
   - import_tasks: tasks/packages.yml
+  - import_tasks: tasks/environment.yml
   - name: Create folder for autologin
     become: true
     file:
@@ -40,10 +41,9 @@
       content: |
         #!/bin/bash
         alias t="tmux -2 attach-session -d"
-        export CPID={{ hostvars[inventory_hostname].cpid }}
-        export DISP_URL='{{ hostvars[inventory_hostname].display_url }}'
-        [[ $XDG_VTNR -eq 1 ]] && {{ ansible_env.HOME }}/pnp.sh
-        [[ $XDG_VTNR -eq 1 ]] && {{ ansible_env.HOME }}/tm.sh &
+        source ~/.env
+        [[ $XDG_VTNR -eq 1 ]] && ~/pnp.sh
+        [[ $XDG_VTNR -eq 1 ]] && ~/tm.sh &
         [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && startx -- -nocursor
   - import_tasks: tasks/grub.yml
   - name: create pnp.sh
@@ -53,12 +53,12 @@
       content: |
         IP=`ip -4 addr show enp1s0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}'`
         pnp=$(upnpc  -a $IP 22 2222 TCP 3595)
-        curl -X POST -F data="$pnp" -F store="$CPID" -F ip="$IP" {{ hostvars[inventory_hostname].ping_url }}| json_pp
+        curl -X POST -F data="$pnp" -F store="$CPID" -F ip="$IP" $PING_URL| json_pp
   - name: Add pnp.sh to cron 
     cron:
       name: "ping back"
       minute: "0"
-      job: "{{ ansible_env.HOME }}/pnp.sh >/dev/null 2>&1"
+      job: "~/pnp.sh >/dev/null 2>&1"
   - name: create tm.sh
     copy:
       dest: "~/tm.sh"
