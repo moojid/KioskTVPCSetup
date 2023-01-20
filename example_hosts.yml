@@ -8,5 +8,6 @@ all:
                 PANDORA_USER : "user@gmail.com",
                 PANDORA_PASS : "pass1234",
                 CPID : "ComputerID",
-                PING_URL : "https://PingBackUSL"
+                PING_URL : "https://PingBackUSL",
+                SPK_MAC : "88:88:88:88:88:88"
             }

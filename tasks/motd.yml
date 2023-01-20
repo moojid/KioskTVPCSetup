@@ -1,0 +1,6 @@
+---
+- name: motd update
+  become: true
+  copy:
+    dest: "/etc/motd"
+    content: "Boom!"

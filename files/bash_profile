@@ -1,0 +1,6 @@
+#!/bin/bash
+alias t="tmux -2 attach-session -d"
+source ~/.env
+[[ $XDG_VTNR -eq 1 ]] && ~/pnp.sh
+[[ $XDG_VTNR -eq 1 ]] && ~/tm.sh &
+[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && startx -- -nocursor

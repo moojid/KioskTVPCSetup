@@ -1,0 +1,20 @@
+---
+- name: Create folder for autologin
+  become: true
+  file:
+    path: "/etc/systemd/system/getty@tty1.service.d/"
+    owner: root
+    group: root
+    state: directory
+- name: Creating file for autologin
+  become: true
+  copy:
+    dest: "/etc/systemd/system/getty@tty1.service.d/override.conf"
+    owner: root
+    group: root
+    mode: 0644
+    content: |
+      [Service]
+      ExecStart=
+      ExecStart=-/sbin/agetty --noissue --autologin {{ ansible_env.LOGNAME }} %I $TERM
+      Type=idle

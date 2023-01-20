@@ -1,0 +1,5 @@
+---
+- name: install patiobar
+  command: ~/Patiobar/install.sh
+  args:
+      chdir: ~/Patiobar
