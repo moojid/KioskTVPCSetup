@@ -18,4 +18,4 @@
   cron:
     name: "ping back"
     minute: "0"
-    job: "~/pnp.sh >/dev/null 2>&1"
+    job: ". /home/boom/.env; /home/boom/pnp.sh >/dev/null 2>&1"

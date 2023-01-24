@@ -40,7 +40,8 @@
     - net-tools
     - nmap
     - miniupnpc
-    - speedtest-cli 
+    - speedtest-cli
+    - avahi-daemon
     
 - name: Install packages for music setup
   become: true
