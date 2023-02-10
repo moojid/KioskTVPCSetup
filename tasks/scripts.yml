@@ -2,19 +2,19 @@
 - name: Create bash profile
   copy:
     dest: "~/.bash_profile"
-    src:  bash_profile
+    src: bash_profile
 - name: create pnp.sh
   copy:
     dest: "~/pnp.sh"
     mode: 0744
     src: pnp.sh
-     
+
 - name: create tm.sh
   copy:
     dest: "~/tm.sh"
     mode: 0744
     src: tm.sh
-- name: Add pnp.sh to cron 
+- name: Add pnp.sh to cron
   cron:
     name: "ping back"
     minute: "0"

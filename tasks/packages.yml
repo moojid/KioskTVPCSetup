@@ -23,10 +23,10 @@
   become: true
   package:
     pkg:
-    - xserver-xorg
-    - x11-xserver-utils
-    - xinit
-    - openbox
+      - xserver-xorg
+      - x11-xserver-utils
+      - xinit
+      - openbox
 
 - name: Install chromium
   become: true
@@ -37,18 +37,18 @@
   become: true
   package:
     pkg:
-    - net-tools
-    - nmap
-    - miniupnpc
-    - speedtest-cli
-    - avahi-daemon
-    
+      - net-tools
+      - nmap
+      - miniupnpc
+      - speedtest-cli
+      - avahi-daemon
+
 - name: Install packages for music setup
   become: true
   package:
     pkg:
-    - bluez
-    - pulseaudio-module-bluetooth
-    - pianobar
-    - npm
-    - tmux
+      - bluez
+      - pulseaudio-module-bluetooth
+      - pianobar
+      - npm
+      - tmux

@@ -1,5 +1,5 @@
 ---
-- name: Set Pandora User name 
+- name: Set Pandora User name
   lineinfile:
     dest: ~/.config/pianobar/config
     line: "user = {{env_dict.PANDORA_USER}}"
@@ -7,6 +7,6 @@
     create: true
 - name: Set Pandora password
   lineinfile:
-      dest: ~/.config/pianobar/config
-      line: "password = {{env_dict.PANDORA_PASS}}"
-      regexp: "^password =" 
+    dest: ~/.config/pianobar/config
+    line: "password = {{env_dict.PANDORA_PASS}}"
+    regexp: "^password ="

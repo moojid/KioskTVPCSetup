@@ -1,19 +1,19 @@
 ---
 - hosts: all
   pre_tasks:
-  - import_tasks: tasks/update.yml
-  
+    - import_tasks: tasks/update.yml
+
   handlers:
-  - import_tasks: handlers/grub.yml
-  - import_tasks: handlers/patiobar.yml
+    - import_tasks: handlers/grub.yml
+    - import_tasks: handlers/patiobar.yml
 
   tasks:
-  - import_tasks: tasks/packages.yml
-  - import_tasks: tasks/environment.yml
-  - import_tasks: tasks/autologon.yml
-  - import_tasks: tasks/autostart.yml
-  - import_tasks: tasks/scripts.yml
-  - import_tasks: tasks/grub.yml
-  - import_tasks: tasks/motd.yml
-  - import_tasks: tasks/patiobar.yml
-  - import_tasks: tasks/pianobar_config.yml
+    - import_tasks: tasks/packages.yml
+    - import_tasks: tasks/environment.yml
+    - import_tasks: tasks/autologon.yml
+    - import_tasks: tasks/autostart.yml
+    - import_tasks: tasks/scripts.yml
+    - import_tasks: tasks/grub.yml
+    - import_tasks: tasks/motd.yml
+    - import_tasks: tasks/patiobar.yml
+    - import_tasks: tasks/pianobar_config.yml
