@@ -1,0 +1,22 @@
+# This file is needed for Ansible compatibility
+# Make sure port 3022 of the teleport proxy is open
+# This is a sample file, generate the file using:
+# tsh confg > ssh.cfg
+# and modify the generated file. See the example below to add/modify the generated file 
+
+Host *
+    StrictHostKeyChecking no
+Host *.teleport.domain.com teleport.domain.com
+    UserKnownHostsFile "/file loc"
+    IdentityFile "/file loc"
+    CertificateFile "/file loc"
+    HostKeyAlgorithms rsa-sha2-512-cert-v01@openssh.com,rsa-sha2-256-cert-v01@openssh.com,ssh-rsa-cert-v01@openssh.com
+    Port 3022
+# Flags for all teleport.domain.com hosts except the proxy
+Host *.teleport.domain.com !teleport.domain.com
+    PubkeyAcceptedKeyTypes +ssh-rsa-cert-v01@openssh.com
+    CheckHostIP no
+    #Change %h to %n in the following generated command
+    ProxyCommand "/opt/homebrew/bin/tsh" proxy ssh --cluster=teleport.domain.com --proxy=teleport.domain.com %r@%n:%p
+
+# End generated Teleport configuration
