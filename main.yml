@@ -9,6 +9,7 @@
     - import_tasks: handlers/patiobar.yml
 
   tasks:
+    - import_tasks: tasks/repos.yml
     - import_tasks: tasks/packages.yml
     - import_tasks: tasks/environment.yml
     - import_tasks: tasks/autologon.yml
