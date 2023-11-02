@@ -1,4 +1,10 @@
 ---
+- name: Install GPG
+  become: true
+  package:
+    pkg:
+      - gnupg
+      
 - name: Add an Apt signing key, uses whichever key is at the URL
   become: true
   ansible.builtin.apt_key:

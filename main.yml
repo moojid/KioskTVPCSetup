@@ -1,6 +1,6 @@
 ---
 - hosts: all
-  environment: "{{proxy_settings}}"
+  #environment: "{{proxy_settings}}"
   pre_tasks:
     - import_tasks: tasks/update.yml
 
