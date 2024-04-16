@@ -42,6 +42,8 @@
       - miniupnpc
       - speedtest
       - avahi-daemon
+      - wget
+      - systemd-timesyncd
 
 - name: Install packages for music setup
   become: true

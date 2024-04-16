@@ -15,6 +15,7 @@ all:
           env_dict:
             {
               DISP_URL: "https://url_to_display",
+              KUMA: "https://uptimekumaPingBack "
               PANDORA_USER: "user@gmail.com",
               PANDORA_PASS: "pass1234",
               CPID: "ComputerID",
