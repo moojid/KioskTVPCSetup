@@ -3,28 +3,3 @@
   copy:
     dest: "~/.bash_profile"
     src: bash_profile
-- name: create pnp.sh
-  copy:
-    dest: "~/pnp.sh"
-    mode: 0744
-    src: pnp.sh
-
-- name: create tm.sh
-  copy:
-    dest: "~/tm.sh"
-    mode: 0744
-    src: tm.sh
-- name: create kuma.sh
-  copy:
-    dest: "~/kuma.sh"
-    mode: 0744
-    src: kuma.sh
-- name: Add pnp.sh to cron
-  cron:
-    name: "ping back"
-    minute: "0"
-    job: ". ~/.env; ~/pnp.sh >/dev/null 2>&1"
-- name: Add kuma.sh to cron
-  cron:
-    name: "ping kuma"
-    job: ". ~/.env; ~/kuma.sh >/dev/null 2>&1"

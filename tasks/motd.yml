@@ -3,4 +3,4 @@
   become: true
   copy:
     dest: "/etc/motd"
-    content: "Boom!"
+    content: "Noor!"

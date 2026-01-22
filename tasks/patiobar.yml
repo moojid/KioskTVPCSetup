@@ -1,8 +1,0 @@
----
-- name: Clone a repo with separate git directory
-  git:
-    repo: https://github.com/kylejohnson/Patiobar.git
-    dest: ~/Patiobar
-  notify: install patiobar
-- name: Flush handlers to make sure Patiobar install is executed before seting config
-  meta: flush_handlers
