@@ -40,7 +40,7 @@
       - net-tools
       - nmap
       - miniupnpc
-      - speedtest
+      #- speedtest
       - avahi-daemon
       - wget
       - systemd-timesyncd

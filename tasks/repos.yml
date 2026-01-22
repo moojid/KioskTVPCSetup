@@ -4,20 +4,20 @@
   package:
     pkg:
       - gnupg
-      
-- name: Add an Apt signing key, uses whichever key is at the URL
-  become: true
-  ansible.builtin.apt_key:
-    url: https://packagecloud.io/ookla/speedtest-cli/gpgkey
-    keyring : /etc/apt/trusted.gpg.d/ookla_speedtest-cli-archive-keyring.gpg
-    state: present
 
-- name: Add OOKLA repository into sources list
+- name: Download Speedtest GPG key
+  become: true
+  ansible.builtin.get_url:
+    url: https://packagecloud.io/ookla/speedtest-cli/gpgkey
+    dest: /etc/apt/keyrings/ookla_speedtest-cli.asc
+    mode: '0644'
+
+- name: Add Speedtest repository
   become: true
   ansible.builtin.apt_repository:
-    repo: deb [signed-by=/etc/apt/trusted.gpg.d/ookla_speedtest-cli-archive-keyring.gpg] https://packagecloud.io/ookla/speedtest-cli/debian bullseye main
-    validate_certs: no
+    repo: "deb [signed-by=/etc/apt/keyrings/ookla_speedtest-cli.asc] https://packagecloud.io bullseye main"
     state: present
+    filename: ookla_speedtest-cli
 
 - name: Update package manager cache.
   apt:
