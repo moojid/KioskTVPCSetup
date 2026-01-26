@@ -12,12 +12,12 @@
     dest: /etc/apt/keyrings/ookla_speedtest-cli.asc
     mode: '0644'
 
-- name: Add Speedtest repository
-  become: true
-  ansible.builtin.apt_repository:
-    repo: "deb [signed-by=/etc/apt/keyrings/ookla_speedtest-cli.asc] https://packagecloud.io bullseye main"
-    state: present
-    filename: ookla_speedtest-cli
+#- name: Add Speedtest repository
+#  become: true
+#  ansible.builtin.apt_repository:
+#    repo: "deb [signed-by=/etc/apt/keyrings/ookla_speedtest-cli.asc] https://packagecloud.io bullseye main"
+#    state: present
+#    filename: ookla_speedtest-cli
 
 - name: Update package manager cache.
   apt:
