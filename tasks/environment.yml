@@ -6,3 +6,13 @@
     regexp: "^{{ item.key }} ="
     create: true
   loop: "{{ lookup('ansible.builtin.dict',env_dict)}}"
+  
+- name: Set timezone
+  become: true
+  ansible.builtin.command: "timedatectl set-timezone {{ timezone | default('America/Phoenix') }}"
+  changed_when: true
+
+- name: Enable NTP
+  become: true
+  ansible.builtin.command: timedatectl set-ntp true
+  changed_when: false
