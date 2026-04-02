@@ -44,6 +44,7 @@
       - avahi-daemon
       - wget
       - systemd-timesyncd
+      - tcpdump
 
 - name: Install packages for music setup
   become: true
