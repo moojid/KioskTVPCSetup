@@ -45,6 +45,7 @@
       - wget
       - systemd-timesyncd
       - tcpdump
+      - network-manager
 
 - name: Install packages for music setup
   become: true
