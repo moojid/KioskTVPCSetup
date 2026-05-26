@@ -3,3 +3,8 @@
   copy:
     dest: "~/.bash_profile"
     src: bash_profile
+- name: Create restart-chrome script
+  copy:
+    dest: "~/restart-chrome.sh"
+    src: restart-chrome.sh
+    mode: '0755'

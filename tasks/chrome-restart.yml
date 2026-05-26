@@ -1,0 +1,8 @@
+---
+- name: Install chrome restart cron
+  cron:
+    name: "Restart kiosk chromium nightly"
+    minute: "0"
+    hour: "0"
+    user: moojid
+    job: "/home/boom/restart-chrome.sh >/tmp/chrome-restart.log 2>&1"
