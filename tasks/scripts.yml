@@ -30,6 +30,13 @@
     dest: "~/n.sh"
     mode: 0744
     src: n.sh
+
+- name: Create restart-chrome script
+  copy:
+    dest: "~/restart-chrome.sh"
+    src: restart-chrome.sh
+    mode: '0755'
+
 - name: Add kuma.sh to cron
   cron:
     name: "ping kuma"
