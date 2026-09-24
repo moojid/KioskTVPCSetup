@@ -10,3 +10,4 @@ sleep 3
   --disable-infobars \
   --remote-debugging-port=9222 \
   --kiosk "$DISP_URL" &
+  
