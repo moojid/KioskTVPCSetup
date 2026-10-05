@@ -1,0 +1,26 @@
+---
+- name: Update Teleport nodename
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/teleport.yaml
+    regexp: '^  nodename:'
+    line: "  nodename: {{ teleport_nodename }}"
+    backup: true
+
+- name: Ensure labels block under ssh_service
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/teleport.yaml
+    regexp: '^  labels:'
+    line: '  labels:'
+    insertafter: '^  enabled: "yes"'
+    backup: true
+
+- name: Ensure type label under ssh_service
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/teleport.yaml
+    regexp: '^    type:'
+    line: '    type: "boomtv"'
+    insertafter: '^  labels:'
+    backup: true

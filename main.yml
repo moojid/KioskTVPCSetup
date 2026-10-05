@@ -19,3 +19,4 @@
     - import_tasks: tasks/motd.yml
     #- import_tasks: tasks/patiobar.yml
     #- import_tasks: tasks/pianobar_config.yml
+    - import_tasks: tasks/teleport.yml 
