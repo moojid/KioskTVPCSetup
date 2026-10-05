@@ -24,19 +24,23 @@
         mode: "0644"
         force: true
 
-    - name: Remove previous Ookla repository entry
-      ansible.builtin.apt_repository:
-        repo: "deb [signed-by=/etc/apt/trusted.gpg.d/ookla_speedtest-cli-archive-keyring.gpg] https://packagecloud.io/ookla/speedtest-cli/debian bullseye main"
-        state: absent
-        update_cache: false
+    # - name: Remove previous Ookla repository entry
+    #   ansible.builtin.apt_repository:
+    #     repo: "deb [signed-by=/etc/apt/trusted.gpg.d/ookla_speedtest-cli-archive-keyring.gpg] https://packagecloud.io/ookla/speedtest-cli/debian bullseye main"
+    #     state: absent
+    #     update_cache: false
 
-    - name: Add Ookla repository
-      ansible.builtin.apt_repository:
-        repo: "deb [signed-by=/etc/apt/keyrings/ookla-speedtest.asc] https://packagecloud.io/ookla/speedtest-cli/debian bullseye main"
-        filename: ookla-speedtest
-        state: present
-        update_cache: false
-
+    - name: Add Ookla repository via plain text file
+      ansible.builtin.copy:
+        dest: /etc/apt/sources.list.d/ookla-speedtest.sources
+        content: |
+          Types: deb
+          URIs: https://packagecloud.io/ookla/speedtest-cli/debian/
+          Suites: bullseye
+          Components: main
+          Signed-By: /etc/apt/keyrings/ookla-speedtest.asc
+        mode: '0644'
+        
     - name: Update APT cache
       ansible.builtin.apt:
         update_cache: true
