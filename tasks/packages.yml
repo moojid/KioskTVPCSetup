@@ -46,6 +46,9 @@
       - systemd-timesyncd
       - tcpdump
       - network-manager
+      - arp-scan
+      - ethtool
+      - lldpd
 
 - name: Install packages for music setup
   become: true

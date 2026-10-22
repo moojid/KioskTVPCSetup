@@ -37,6 +37,25 @@
     src: restart-chrome.sh
     mode: '0755'
 
+- name: Install network diagnostics command
+  become: true
+  copy:
+    dest: /usr/local/bin/m
+    src: m.sh
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Allow the Ansible user to run network diagnostics without a password
+  become: true
+  copy:
+    dest: /etc/sudoers.d/m
+    content: "{{ ansible_user }} ALL=(root) NOPASSWD: /usr/local/bin/m\n"
+    owner: root
+    group: root
+    mode: '0440'
+    validate: '/usr/sbin/visudo -cf %s'
+
 - name: Add kuma.sh to cron
   cron:
     name: "ping kuma"
