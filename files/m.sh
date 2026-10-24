@@ -191,6 +191,20 @@ discover_switch() {
     fi
 }
 
+list_mdns_hosts() {
+    if ! command -v avahi-browse >/dev/null; then
+        echo "avahi-utils is not installed."
+        return
+    fi
+
+    echo
+    printf '%-15s %-30s %s\n' "IP address" "Hostname" "Service name"
+    printf '%s\n' "----------------------------------------------------------------"
+    avahi-browse -artp | awk -F ';' '$1 == "=" && $3 == "IPv4" && !seen[$8]++ {
+        printf "%-15s %-30s %s\n", $8, $7, $4
+    }'
+}
+
 while true; do
     clear
     printf 'Debian Network Diagnostics\n'
@@ -206,6 +220,7 @@ while true; do
         "  7) Ping a host" \
         "  8) View cached LLDP/CDP neighbors" \
         "  9) Change interface" \
+        " 10) List mDNS/Bonjour hostnames" \
         "  0) Exit"
 
     echo
@@ -266,6 +281,9 @@ while true; do
             else
                 echo "Interface not found."
             fi
+            ;;
+        10)
+            list_mdns_hosts
             ;;
         0|q|Q)
             break

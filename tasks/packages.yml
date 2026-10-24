@@ -42,6 +42,7 @@
       - miniupnpc
       - speedtest
       - avahi-daemon
+      - avahi-utils
       - wget
       - systemd-timesyncd
       - tcpdump
