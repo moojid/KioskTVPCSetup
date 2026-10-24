@@ -62,7 +62,12 @@ scan_hosts() {
 
     echo
     echo "Discovering hosts on $INTERFACE..."
-    raw=$(arp-scan --interface="$INTERFACE" "$target" 2>&1)
+    raw=$(arp-scan \
+        --ouifile=/usr/share/arp-scan/ieee-oui.txt \
+        --macfile=/etc/arp-scan/mac-vendor.txt \
+        --ignoredups \
+        --interface="$INTERFACE" \
+        "$target" 2>&1)
     status=$?
 
     # Show the original results, including MAC addresses and vendors.
