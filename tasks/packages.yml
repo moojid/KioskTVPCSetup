@@ -51,6 +51,16 @@
       - ethtool
       - lldpd
 
+- name: Deploy IEEE OUI database for arp-scan
+  become: true
+  copy:
+    src: ieee-oui.txt
+    dest: /usr/share/arp-scan/ieee-oui.txt
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+
 - name: Install packages for music setup
   become: true
   package:
