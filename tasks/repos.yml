@@ -41,6 +41,24 @@
           Signed-By: /etc/apt/keyrings/ookla-speedtest.asc
         mode: '0644'
         
+    - name: Fix apt sources for EOL Debian 11
+      when: ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "11"
+      become: true
+      block:
+        - name: Point bullseye at archive.debian.org
+          ansible.builtin.copy:
+            dest: /etc/apt/sources.list
+            content: |
+              deb http://archive.debian.org/debian bullseye main
+              deb http://archive.debian.org/debian-security bullseye-security main
+            mode: "0644"
+
+        - name: Don't fail on expired Release files
+          ansible.builtin.copy:
+            dest: /etc/apt/apt.conf.d/99archive
+            content: 'Acquire::Check-Valid-Until "false";'
+            mode: "0644"
+
     - name: Update APT cache
       ansible.builtin.apt:
         update_cache: true
