@@ -4,3 +4,13 @@ source ~/.env
 [[ $XDG_VTNR -eq 1 ]] && ~/pnp.sh
 [[ $XDG_VTNR -eq 1 ]] && ~/tm.sh &
 [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && startx -- -nocursor
+
+# Read the yaml node name once and immediately set the iTerm2 title
+if [ -z "$TELEPORT_NODENAME" ]; then
+    raw_node=$(sudo grep -E '^[[:space:]]*nodename:' /etc/teleport.yaml | awk -F': ' '{print $2}' | xargs)
+    export TELEPORT_NODENAME="${raw_node:-$HOSTNAME}"
+
+    # Send the escape sequence to iTerm2 immediately
+    echo -ne "\033]0;${TELEPORT_NODENAME}\007"
+fi
+PROMPT_COMMAND='echo -ne "\033]0;${TELEPORT_NODENAME}: ${PWD}\007"'
